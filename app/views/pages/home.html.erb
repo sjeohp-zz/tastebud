@@ -1,8 +1,10 @@
 
+
 <% if @current_user %>
 	<div>
-		<%= "Signed in as #{current_user}.email" %>
+		<%= "Signed in as #{current_user.email}" %> <br />
+		<%= link_to "Sign out", "/sign_out" %> <br />
 	</div>
 <% else %>
-	<%= link_to "Sign in", "/users/sign_in" %>
+	<%= link_to "Sign in", "/sign_in" %>
 <% end %>
