@@ -1,10 +1,12 @@
 Tastebud::Application.routes.draw do
-  get "pages/home"
-  get "sessions/new"
+  # get "pages/home"
+  # get "sessions/new"
   get "sign_up" => "users#new", :as => "sign_up"
   get "sign_in" => "sessions#new", :as => "sign_in"
+  get "sign_out" => "sessions#destroy", :as => "sign_out"
   root "pages#home"
   resources :users
+  resources :sessions
   
   
   
