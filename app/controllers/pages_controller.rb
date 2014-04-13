@@ -1,14 +1,9 @@
 class PagesController < ApplicationController
-  include UsersHelper
   
   def home
-    @current_user = current_user
-    if @current_user != nil
-      
-      
-    else
-      
-      
+    if logged_in?
+      redirect_to '/profile'
     end
   end
+  
 end

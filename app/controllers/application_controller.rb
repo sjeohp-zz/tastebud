@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password, :password_confirmation
+
+  before_action :new_search
   
   def logged_in?
     session[:user_id].present?
@@ -31,6 +33,10 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
+  end
+  
+  def new_search
+    @search = Search.new
   end
   
 end
