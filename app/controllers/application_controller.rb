@@ -6,7 +6,16 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password, :password_confirmation
 
+  before_action :ghost_session
   before_action :new_search
+
+  def ghost_session
+    @ghost_session = Ghost.find_or_create_by(:session_id => request.session_options[:id], :remote_ip => request.remote_ip)
+  end
+
+  def new_search
+    @search = Search.new
+  end
   
   def logged_in?
     session[:user_id].present?
@@ -33,10 +42,6 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
-  end
-  
-  def new_search
-    @search = Search.new
   end
   
 end

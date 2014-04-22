@@ -3,6 +3,7 @@ class Tag
   include Mongoid::Timestamps
   
   has_and_belongs_to_many :users, validate: false, autosave: true
+  has_and_belongs_to_many :ghosts, validate: false, autosave: true
   
   field :key, type: String
   field :medium, type: String

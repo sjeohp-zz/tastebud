@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include SearchHelper
+
   def new
     @user = User.new
   end

@@ -1,12 +1,26 @@
 class SearchController < ApplicationController
   
   def create
+
+    ghost = ghost_session
+
     term = search_params
     tag = Tag.where(key: term[:key]).first
-    return get_similar(term) if !tag
-    hash = {}
-    p tag.users.to_a
-    tag.users.each do |u|
+
+    if !tag
+      get_similar(term)
+      tag = Tag.create(key: term[:key], medium: term[:medium])
+      ghost.tags << tag if !ghost.tags.include?(tag)
+      return
+    end
+    ghost.tags << tag if !ghost.tags.include?(tag)  
+
+    hash = search_relation_tags(tag.ghosts, search_relation_tags(tag.users, {}))
+    @search.results = hash.sort_by{|k, v| v}
+  end
+
+  def search_relation_tags(relation, hash)
+    relation.each do |u|
       u.tags.each do |t|
         if hash.key?(t.key)
           hash[t.key] += 1
@@ -15,7 +29,7 @@ class SearchController < ApplicationController
         end
       end
     end
-    @search.results = hash.sort_by{|k, v| v}
+    return hash
   end
   
   def search_results

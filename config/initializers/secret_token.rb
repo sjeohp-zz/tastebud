@@ -9,4 +9,9 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Tastebud::Application.config.secret_key_base = 'ab44def5a1c973b8061df0c03dcfd73bef4e1394b529e5dd62cf22b93a8bf5c242bcd6bf45bcc513a30a2f96ed93cd64bac083652e01dea573bb3a956e2f0447'
+Tastebud::Application.config.secret_key_base = if Rails.env.development? or Rails.env.test?
+	# 'ab44def5a1c973b8061df0c03dcfd73bef4e1394b529e5dd62cf22b93a8bf5c242bcd6bf45bcc513a30a2f96ed93cd64bac083652e01dea573bb3a956e2f0447'
+	('x' * 30) # meets minimum requirement of 30 chars long
+else
+	ENV['SECRET_TOKEN']
+end
