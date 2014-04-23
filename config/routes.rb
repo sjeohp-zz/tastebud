@@ -1,17 +1,23 @@
 Tastebud::Application.routes.draw do
+  
+  get "buds/show"
   get "tags/tag"
   post "tags/create"
   post "search/create"
   # get "pages/home"
   # get "sessions/new"
+  
   get "profile" => "users#show", :as => "profile"
   get "sign_up" => "users#new", :as => "sign_up"
   get "sign_in" => "sessions#new", :as => "sign_in"
   get "sign_out" => "sessions#destroy", :as => "sign_out"
+
   root "pages#home"
+  
   resources :users
   resources :sessions
   resources :tags
+  resources :buds
   
   
   # The priority is based upon order of creation: first created -> highest priority.

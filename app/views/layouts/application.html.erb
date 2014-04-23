@@ -23,20 +23,17 @@
 	<%= content_tag :div, msg, class: name %>
 <% end -%>
 
-	<br />
-	<br />
+<br />
+<br />
 	
-	<div>
-		<%= form_for @search, :url => {controller: 'search', action: 'create' } do |f| %>
-		<%= f.label :key %>
-		<%= f.text_field :key %>
-		<%= f.label :medium %>
-		<%= f.text_field :medium %>
-		<%= f.submit 'Search'%>
-		<% end %>
-		<br />
-		<%= "#{@search.results.map{|elem| elem[0]}.flatten.join(', ')}" %>
-	</div>
+<div>
+	<%= form_for @search, :url => {controller: 'search', action: 'create' } do |f| %>
+	<%= f.text_field :term, :placeholder => "Something you like" %>
+	<%= f.submit 'Search'%>
+	<% end %>
+	<br />
+	<%= "#{ @search.results.map { |elem| elem[1][:title] }.flatten.join(', ') }" %>
+</div>
 
 <%= yield %>
 

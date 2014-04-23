@@ -16,13 +16,13 @@ class UsersController < ApplicationController
   
   def show
     @tag = Tag.new
-    @tagstring = current_user.tags.to_a.map{|tag|tag.key}.join(', ')
+    @user = current_user
+    @tagstring = current_user.tags.to_a.map{|tag|tag.title}.join(', ')
   end
   
   private
   
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:handle, :email, :password, :password_confirmation)
   end
-  
 end

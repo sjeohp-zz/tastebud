@@ -5,5 +5,4 @@ class PagesController < ApplicationController
       redirect_to '/profile'
     end
   end
-  
 end

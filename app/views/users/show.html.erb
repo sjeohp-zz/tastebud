@@ -1,17 +1,11 @@
 
 <% if logged_in? %>
-	
-	
-	
-	
+
 	<br />
 	<%= form_for @tag, :url => {:controller => 'tags', :action => 'create'} do |form| %>
-		<%= form.label :key %>
-		<%= form.text_field :key %>
-		<%= form.label :medium %>
-		<%= form.text_field :medium %>
+		<%= form.text_field :title, :placeholder => "Your favourite things" %>
 		<%= form.submit 'Add tag' %>
 	<% end %>
 	<br />
-	<%= "#{@tagstring}" %>
+	<%= raw @user.tags.collect { |ut| link_to ut.title, { :controller => "buds", :action => "show", :bud_key => ut.key }, {:style => "text-decoration:none; color:black;"} }.join(", ") %>
 <% end %>

@@ -9,9 +9,12 @@ class User
 
   attr_accessor :password, :password_confirmation
   
-  field :email,                     :type => String
-  field :password_hash,             :type => String
+  field :handle, type: String
+  field :email, type: String
+  field :password_hash, type: String
   
+  validates_presence_of :handle, :message => "You need a handle."
+  validates_uniqueness_of :handle, :message => "Someone else took that handle already."
   validates_presence_of :email, :message => "You must enter an email."
   validates_uniqueness_of :email, :message => "That email already in use."
   validates_length_of :password, :minimum => 6, :message => "Your password must have at least 6 characters."

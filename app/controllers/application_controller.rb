@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :new_search
 
   def ghost_session
-    @ghost_session = Ghost.find_or_create_by(:session_id => request.session_options[:id], :remote_ip => request.remote_ip)
+    @ghost_session = Ghost.find_or_create_by(:session_id => request.session_options[:id], :remote_ip => request.remote_ip, :user => current_user)
   end
 
   def new_search
@@ -43,5 +43,4 @@ class ApplicationController < ActionController::Base
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
   end
-  
 end

@@ -1,32 +1,54 @@
 class SearchController < ApplicationController
   
   def create
+    params = search_params
+    term = params[:term]
+
+    tag = Tag.find_or_create_by(:title => term)
 
     ghost = ghost_session
+    ghost.tags.delete_if { |gt| gt.key == tag.key }
+    ghost.tags << tag
 
-    term = search_params
-    tag = Tag.where(key: term[:key]).first
-
-    if !tag
+    bud = Bud.where(:key => tag.key).first
+    if !bud
       get_similar(term)
-      tag = Tag.create(key: term[:key], medium: term[:medium])
-      ghost.tags << tag if !ghost.tags.include?(tag)
+      bud = Bud.create(:key => tag.key)
       return
     end
-    ghost.tags << tag if !ghost.tags.include?(tag)  
 
-    hash = search_relation_tags(tag.ghosts, search_relation_tags(tag.users, {}))
-    @search.results = hash.sort_by{|k, v| v}
+    hash = search_t(bud, {})
+    @search.results = hash.sort_by{ |k, v| v[:key_count] }
   end
 
-  def search_relation_tags(relation, hash)
-    relation.each do |u|
-      u.tags.each do |t|
-        if hash.key?(t.key)
-          hash[t.key] += 1
-        else
-          hash[t.key] = 1
+  def search_t(bud, hash)
+    bud.tags.each do |t| 
+      hash = search_u(t, hash)
+      hash = search_g(t, hash)
+    end
+    return hash
+  end
+
+  def search_u(tag, hash)
+    tag.users.each { |u| hash = search_ut(u, hash) if u != current_user }
+    return hash
+  end
+
+  def search_g(tag, hash)
+    tag.ghosts.each { |g| hash = search_ut(g, hash) if (g != ghost_session) && g.user && (g.user != current_user) }
+    return hash
+  end
+
+  def search_ut(u, hash)
+    u.tags.each do |ut|
+      if hash.key?(ut.key)
+        hash[ut.key][:key_count] += 1
+        if ut.count > hash[ut.key][:title_count]
+          hash[ut.key][:title] = ut.title
+          hash[ut.key][:title_count] = ut.count
         end
+      else
+        hash[ut.key] = { key_count: 1, title: ut.title, title_count: ut.count }
       end
     end
     return hash
@@ -37,7 +59,7 @@ class SearchController < ApplicationController
   end
   
   def search_params
-    params.require(:search).permit(:key, :medium)
+    params.require(:search).permit(:term)
   end
   
   private
@@ -45,5 +67,4 @@ class SearchController < ApplicationController
   def get_similar(term)
     
   end
-  
 end
