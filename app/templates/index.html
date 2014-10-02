@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="post" name="search">
+	{{form.hidden_tag()}}
+	
+	<table>
+		<tr>
+			<td>
+				{{ form.search(size = 30, maxlength = 30, autofocus=true) }}
+				<input type="submit" value="Search for stuff you like">
+			</td>
+			<td>
+				{% for error in form.errors.tag %}
+					<span style="color: red;">[{{error}}]</span><br>
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</form>
+
+{% for tag in results %}
+	{% if tag.body != None %}
+		{% include 'tag.html' %}
+	{% endif %}
+{% endfor %}
+
+{% endblock %}

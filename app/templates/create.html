@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="" method="post" name="create">
+	{{create.hidden_tag()}}
+
+	{{create.nickname(size=80, placeholder="name", autofocus=true)}}
+	{% for error in create.errors.nickname %}<span style="color: red;">{{error}}</span>{% endfor %}
+	<br>
+
+	{{create.email(size=80, placeholder="email")}}
+	{% for error in create.errors.email %}<span style="color: red;">{{error}}</span>{% endfor %}
+	<br>
+	{{create.password(size=80, placeholder="password")}}
+	{% for error in create.errors.password %}<span style="color: red;">{{error}}</span>{% endfor %}
+	<br>
+	{{create.confirmation(size=80, placeholder="confirm password")}}
+	{% for error in create.errors.confirmation %}<span style="color: red;">{{error}}</span>{% endfor %}
+	<br>
+	
+	<div>{{create.remember_me}} remember me</div>
+	<input type="submit" value="Create" name="submit">
+</form>
+
+{% endblock %}
