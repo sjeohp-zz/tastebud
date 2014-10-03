@@ -4,10 +4,8 @@
 
 <form action="" method="post" name="tag">
 	{{form.hidden_tag()}}
-	
 	<table>
 		<tr>
-<!-- 			<td>Add a tag:</td> -->
 			<td>
 				{{ form.tag(size = 30, maxlength = 30, autofocus=true) }}
 				<input type="submit" value="Add">
@@ -26,9 +24,14 @@
 	</table>
 </form>
 
+<table>
 {% for tag in user.ordered_tags() %}
 	{% if tag.body != None %}
-		{% include 'tag.html' %}
+		<tr>
+			<td>
+				{% include 'tag_link.html' %}
+			</td>
+		</tr>
 	{% endif %}
 {% endfor %}
 

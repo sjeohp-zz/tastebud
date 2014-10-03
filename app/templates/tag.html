@@ -1,1 +1,44 @@
-<a href="{{ url_for('remove_tag', tag_body = tag.body) }}">{{ tag.body }}</a>
+{% extends "base.html" %}
+
+{% block content %}
+
+<table>
+	<tr>
+		<td>
+			{{ tag.body }}
+			<br><br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Count:
+		</td>
+		<td>
+			{{ tag.count() }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Prevalence:
+		</td>
+		<td>
+			{{ tag.prevalence() }} 
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<br>
+			Users:
+		</td>
+	</tr>
+	{% for user in tag.users %}
+	<tr>
+		<td>
+			{% include 'user_link.html' %}
+		</td>
+	</tr>
+
+	{% endfor %}
+</table>
+
+{% endblock %}

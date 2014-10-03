@@ -24,4 +24,10 @@
 	</table>
 </form>
 
+{% for result in results %}
+	{% if result[0].body != None %}
+		{% include 'search_result.html' %}
+	{% endif %}
+{% endfor %}
+
 {% endblock %}

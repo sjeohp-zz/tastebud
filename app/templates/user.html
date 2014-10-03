@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table>
+	<tr>
+		<td>
+			{{ user.nickname }}
+			<br><br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Tags:
+		</td>
+	</tr>
+	{% for tag in user.ordered_tags() %}
+	<tr>
+		<td>
+			{% include 'tag_link.html' %}
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}

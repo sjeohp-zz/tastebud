@@ -1,3 +1,4 @@
+from __future__ import division
 from app import db
 from hashlib import md5
 from sqlalchemy import Table, Column, Integer, ForeignKey, DateTime
@@ -5,7 +6,8 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.associationproxy import association_proxy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, func
+
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -33,7 +35,7 @@ class Tag(db.Model):
 		return '<Tag %r>' % (self.body)
 
 	@staticmethod
-	def tag_for_body(body):
+	def find_or_create(body):
 		tag = db.session.query(Tag).filter(Tag.body == body).first()
 		if tag == None:
 			tag = Tag(body=body, created_at=datetime.utcnow())
@@ -41,11 +43,26 @@ class Tag(db.Model):
 			db.session.commit()
 		return tag
 
-	def search_related_tags(self):
-		related_users = db.session.query(User.id).join(UserTagAssoc).filter(UserTagAssoc.tag_id==self.id)
-		related_tags = db.session.query(Tag).join(UserTagAssoc).filter(UserTagAssoc.user_id.in_(related_users))
-		return related_tags.all()
+	@staticmethod
+	def find(body):
+		tag = db.session.query(Tag).filter(Tag.body == body).first()
+		return tag
 
+	def search_related_tags(self):
+		return db.session.query(Tag, func.count(UserTagAssoc.tag_id)) \
+		.filter(UserTagAssoc.user_id.in_(db.session.query(User.id) \
+		.join(UserTagAssoc) \
+		.filter(UserTagAssoc.tag_id==self.id))) \
+		.filter(UserTagAssoc.tag_id==Tag.id, Tag.id!=self.id) \
+		.group_by(Tag.id) \
+		.order_by(desc(func.count(UserTagAssoc.tag_id))) \
+		.all()
+
+	def count(self):
+		return db.session.query(UserTagAssoc).filter(UserTagAssoc.tag_id==self.id).count()
+
+	def prevalence(self):
+		return self.count() / db.session.query(User).count()
 
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -84,6 +101,10 @@ class User(db.Model):
 	@staticmethod
 	def email_taken(email):
 		return db.session.query(User).filter(User.email==email).count() > 0
+
+	@staticmethod
+	def user_for_nickname(nickname):
+		return db.session.query(User).filter(User.nickname==nickname).first()
 
 	@staticmethod
 	def user_for_email(email):

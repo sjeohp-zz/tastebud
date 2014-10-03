@@ -10,33 +10,42 @@ from models import User, Tag, ROLE_USER, ROLE_ADMIN
 def index():
 	form = SearchForm()
 	if form.validate_on_submit():
-		search_body = form.search.data
-		tag = Tag.tag_for_body(search_body)
-		if tag == None:
-			flash("No results for that search")
-			return redirect(url_for('index'))
-		results = tag.search_related_tags()
-		print(results)
-		return render_template('index.html',
-			form=SearchForm(),
-			results=results)
+		term = form.search.data
+		return redirect(url_for('search',
+			term=term))
 	return render_template('index.html', 
 		form=form)
 
-@app.route('/profile', methods=['GET', 'POST'])
-@login_required
-def profile():
-	form = TagForm()
-	user = g.user
+@app.route('/search', methods=['GET', 'POST'])
+@app.route('/search/<term>', methods=['GET', 'POST'])
+def search(term=None):
+	form = SearchForm()
 	if form.validate_on_submit():
-		tag = Tag.tag_for_body(form.tag.data)
-		user.add_tag(tag)
-		db.session.add(user)
-		db.session.commit()
-		return redirect(url_for('profile'))
-	return render_template('profile.html', 
-		user=user, 
-		form=form)
+		term = form.search.data
+		return redirect(url_for('search',
+			term=term))
+	tag = Tag.find(term)
+	if tag == None:
+		flash("No results for that search")
+		return redirect(url_for('search'))
+	results = tag.search_related_tags()
+	if len(results) == 0:
+		flash("No results for that search")
+		return redirect(url_for('search'))
+	print(results)
+	return render_template('search.html', 
+		form=form,
+		results=results)
+
+@app.route('/user/<nickname>', methods=['GET', 'POST'])
+def user(nickname, user=None):
+	if user == None:
+		user = User.user_for_nickname(nickname)
+	if user == None:
+		flash("That user doesn't exist")
+		return redirect(url_for('index'))
+	return render_template('user.html',
+		user=user)
 
 @app.before_request
 def before_request():
@@ -54,9 +63,7 @@ def load_user(id):
 def create():
 	if g.user is not None and g.user.is_authenticated():
 		return redirect(url_for('profile'))
-
 	createForm = CreateForm()
-
 	if request.form:
 		if request.form["submit"]:
 			if request.form["submit"] == "Create":
@@ -79,7 +86,6 @@ def create():
 						db.session.commit()
 						login_user(user, remember=remember_me)
 						return redirect(request.args.get('next') or url_for('index'))
-
 	return render_template('create.html', 
 		title='Create account', 
 		create=createForm)
@@ -162,6 +168,27 @@ def logout():
 	logout_user()
 	return redirect(url_for('index'))
 
+@app.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+	form = TagForm()
+	user = g.user
+	if form.validate_on_submit():
+		return redirect(url_for('add_tag', tag_body=form.tag.data))
+	return render_template('profile.html', 
+		user=user, 
+		form=form)
+
+@app.route('/add_tag/<tag_body>')
+@login_required
+def add_tag(tag_body):
+	tag = Tag.find_or_create(tag_body)
+	user = g.user.add_tag(tag)
+	if user:
+		db.session.add(user)
+		db.session.commit()
+	return redirect(url_for('profile'))
+
 @app.route('/remove_tag/<tag_body>')
 @login_required
 def remove_tag(tag_body):
@@ -175,6 +202,13 @@ def remove_tag(tag_body):
 		db.session.commit()
 	return redirect(url_for('profile'))
 
-
+@app.route('/tag/<tag_body>')
+def tag(tag_body):
+	tag = db.session.query(Tag).filter(Tag.body==tag_body).first()
+	if tag == None:
+		flash("That tag doesn't exist.")
+		return redirect(url_for('index'))
+	return render_template('tag.html',
+		tag=tag)
 
 
