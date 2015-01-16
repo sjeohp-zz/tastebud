@@ -25,13 +25,13 @@ def search(term=None):
 		return redirect(url_for('search',
 			term=term))
 	tag = Tag.find(term)
-	if tag == None:
+	if term and tag == None:
 		flash("No results for that search")
-		return redirect(url_for('search'))
+		return redirect(url_for('index'))
 	results = tag.search_related_tags()
 	if len(results) == 0:
 		flash("No results for that search")
-		return redirect(url_for('search'))
+		return redirect(url_for('index'))
 	print(results)
 	return render_template('search.html', 
 		form=form,

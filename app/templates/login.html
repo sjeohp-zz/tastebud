@@ -23,7 +23,7 @@ function set_openid(openid, pr)
 	{% for error in login.errors.email %}<span style="color: red;">{{error}}</span>{% endfor %}
 	<br>
 	
-	{{login.password(size=80, placeholder="password")}}
+	{{login.password(size=80, placeholder="password", hide_value=True)}}
 	{% for error in login.errors.password %}<span style="color: red;">{{error}}</span>{% endfor %}
 	<br>
 	

@@ -1,18 +1,18 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, TextAreaField
+from wtforms import TextField, BooleanField, TextAreaField, PasswordField
 from wtforms.validators import Required, Length
 from app.models import User
 
 class CreateForm(Form):
 	nickname = TextField('nickname', validators = [Required()])
 	email = TextField('email', validators = [Required()])
-	password = TextField('password', validators = [Required()])
-	confirmation = TextField('confirmation', validators = [Required()])
+	password = PasswordField('password', validators = [Required()])
+	confirmation = PasswordField('confirmation', validators = [Required()])
 	remember_me = BooleanField('remember_me', default=False)
 
 class LoginForm(Form):
 	email = TextField('email', validators = [Required()])
-	password = TextField('password', validators = [Required()])
+	password = PasswordField('password', validators = [Required()])
 	remember_me = BooleanField('remember_me', default=False)
 
 class OpenIDForm(Form):
