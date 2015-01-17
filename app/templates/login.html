@@ -18,33 +18,34 @@ function set_openid(openid, pr)
 
 <form action="" method="post" name="login">
 	{{login.hidden_tag()}}
-
+	<br>
 	{{login.email(size=80, placeholder="email", autofocus=true)}}
 	{% for error in login.errors.email %}<span style="color: red;">{{error}}</span>{% endfor %}
 	<br>
-	
+	<br>
 	{{login.password(size=80, placeholder="password", hide_value=True)}}
 	{% for error in login.errors.password %}<span style="color: red;">{{error}}</span>{% endfor %}
 	<br>
-	
+	<br>
 	<div>{{login.remember_me}} remember me</div>
+	<br>
 	<input type="submit" value="Sign in"  name="submit">
 </form>
 
-<div>OR sign in using OpenID</div>
+<!-- <div>OR sign in using OpenID</div>
 <form action="" method="post" name="openid">
 	{{openid.hidden_tag()}}
 
 	{{openid.openid(size=80, placeholder="openid")}}
 	{% for error in openid.errors.openid %}<span style="color: red;">{{error}}</span>{% endfor %}
 	<br>
-	
+
 	|{% for pr in providers %}
 	<a href="javascript:set_openid('{{pr.url}}', '{{pr.name}}');">{{pr.name}}</a> |
 	{% endfor %}
 
 	<div>{{openid.remember_me}} remember me</div>
 	<input type="submit" value="Sign in using OpenID"  name="submit">
-</form>
+</form> -->
 
 {% endblock %}

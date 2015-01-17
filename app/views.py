@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from datetime import datetime
 from app import app, db, lm, oid
-from forms import CreateForm, LoginForm, OpenIDForm, TagForm, SearchForm
+from forms import CreateForm, LoginForm, OpenIDForm, TagForm, SearchForm, GroupForm
 from models import User, Tag, ROLE_USER, ROLE_ADMIN
 
 @app.route('/', methods=['GET', 'POST'])
@@ -99,27 +99,7 @@ def login():
 	oidForm = OpenIDForm()
 	if request.form:
 		if request.form["submit"]:
-			if request.form["submit"] == "Create":
-				if createForm.validate_on_submit():
-					remember_me = createForm.remember_me.data
-					nickname = createForm.nickname.data
-					email = createForm.email.data
-					password = createForm.password.data
-					confirm = createForm.confirmation.data
-					user = User.user_for_email(email)
-					if user is not None:
-						flash("Account already exists for that email.")
-						redirect("/login")
-					elif password != confirm:
-						flash("Passwords don't match.")
-						redirect("/login")
-					else:
-						user = User(nickname=nickname, email=email, password=password, role=ROLE_USER)
-						db.session.add(user)
-						db.session.commit()
-						login_user(user, remember=remember_me)
-						return redirect(request.args.get('next') or url_for('index'))
-			elif request.form["submit"] == "Sign in":
+			if request.form["submit"] == "Sign in":
 				if loginForm.validate_on_submit():
 					remember_me = loginForm.remember_me.data
 					email = loginForm.email.data
@@ -171,36 +151,72 @@ def logout():
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-	form = TagForm()
-	user = g.user
-	if form.validate_on_submit():
-		return redirect(url_for('add_tag', tag_body=form.tag.data))
-	return render_template('profile.html', 
-		user=user, 
-		form=form)
+    user = g.user
+    group_form = GroupForm()
+    tag_forms = []
+    for group in user.groups:
+        form = TagForm()
+        form.group_name.data = group.name
+        print(form.group_name.data)
+        tag_forms.append(form)
+    if request.form:
+        print(request.form)
+        print("group name: " + request.form["group_name"])
+        if "add_group" in request.form:
+            print('add group')
+            if group_form.validate_on_submit():
+                return redirect(url_for('add_group', group_name=group_form.group_name.data))
+        
+        else:
+            print('else')
+            i = 0
+            for group in user.groups:
+                if request.form["group_name"] == group.name:
+                    print('tag form')
+                    form = tag_forms[i]            
+                    if form.validate_on_submit():
+                        return redirect(url_for('add_tag', tag_body=form.tag_body.data, group_name=group.name))
+    return render_template('profile.html', 
+        user=user, 
+        group_form=group_form,
+        tag_forms=tag_forms)
+        
+@app.route('/add_group/<group_name>')
+@login_required
+def add_group(group_name):
+    if g.user.has_group(group_name):
+        flash("You already have that group.")
+    else:
+        g.user.get_group(group_name)
+        print(g.user.groups)
+    return redirect(url_for('profile'))
 
 @app.route('/add_tag/<tag_body>')
+@app.route('/add_tag/<tag_body>/<group_name>')
 @login_required
-def add_tag(tag_body):
-	tag = Tag.find_or_create(tag_body)
-	user = g.user.add_tag(tag)
-	if user:
-		db.session.add(user)
-		db.session.commit()
-	return redirect(url_for('profile'))
+def add_tag(tag_body, group_name=None):
+    tag = Tag.find_or_create(tag_body)
+    group = g.user.get_or_create_group(group_name)
+    user = g.user.add_tag(tag, group)
+    if user:
+    	db.session.add(user)
+    	db.session.commit()
+    return redirect(url_for('profile'))
 
 @app.route('/remove_tag/<tag_body>')
+@app.route('/remove_tag/<tag_body>/<group_name>')
 @login_required
-def remove_tag(tag_body):
-	tag = db.session.query(Tag).filter(Tag.body == tag_body).first()
-	if tag == None:
-		flash("You don't have that tag.")
-		return redirect(url_for('index'))
-	user = g.user.remove_tag(tag)
-	if user:
-		db.session.add(user)
-		db.session.commit()
-	return redirect(url_for('profile'))
+def remove_tag(tag_body, group_name=None):
+    tag = db.session.query(Tag).filter(Tag.body == tag_body).first()
+    group = g.user.get_group(group_name)
+    if tag == None:
+    	flash("You don't have that tag.")
+    	return redirect(url_for('index'))
+    user = g.user.remove_tag(tag, group)
+    if user:
+    	db.session.add(user)
+    	db.session.commit()
+    return redirect(url_for('profile'))
 
 @app.route('/tag/<tag_body>')
 def tag(tag_body):

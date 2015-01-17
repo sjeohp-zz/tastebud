@@ -1,0 +1,7 @@
+
+a { color: green; }
+
+tr td {
+    padding: 10px;
+    vertical-align: top; /* Add this */
+}

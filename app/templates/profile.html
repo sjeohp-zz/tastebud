@@ -2,37 +2,63 @@
 
 {% block content %}
 
-<form action="" method="post" name="tag">
-	{{form.hidden_tag()}}
-	<table>
-		<tr>
-			<td>
-				{{ form.tag(size = 30, maxlength = 30, autofocus=true) }}
-				<input type="submit" value="Add">
-			</td>
-			<td>
-				{% for error in form.errors.tag %}
-					<span style="color: red;">[{{error}}]</span><br>
-				{% endfor %}
-			</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-</form>
-
-<table>
-{% for tag in user.ordered_tags() %}
-	{% if tag.body != None %}
-		<tr>
-			<td>
-				{% include 'tag_link.html' %}
-			</td>
-		</tr>
-	{% endif %}
+<div>
+<form action="" method="post" name="add_group_form">
+{{ group_form.hidden_tag() }}
+{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
+<input type="submit" value="Add new group" name="add_group_input">
+{% for error in group_form.errors.tag %}
+<span style="color: red;">[{{error}}]</span><br>
 {% endfor %}
+
+<br> 
+<br>
+
+<table border="1" cellspacing="0">
+	<tr>
+	{% for form in tag_forms %}
+		<td>
+			{{ form.group_name.data }}
+			<form action="" method="post" name="tag_body_form">
+			{{ form.hidden_tag() }}
+				<table border="1" cellspacing="0">
+					<tr>
+						<td>
+							{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
+							<input type="submit" value="Add" name="add_tag_input">
+						</td>
+						<td>
+							{% for error in form.errors.tag %}
+								<span style="color: red;">[{{error}}]</span><br>
+							{% endfor %}
+						</td>
+					</tr>
+				</table>
+			</form>
+		</td>
+	{% endfor %}
+	</tr>
+	<tr>	
+		{% for form in tag_forms %}	
+		<td>
+			<table border="1" cellspacing="0">
+			{% for tag in user.tags_for_group(form.group_name.data) %}
+				{% if tag.body != None %}
+					<tr>
+						<td>
+							{% include 'tag_link.html' %}
+						</td>
+						<td>
+							<a style="color: red" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}">x</a>
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+			</table>
+		</td>
+		{% endfor %}
+	</tr>
+</table>
+</div>
 
 {% endblock %}
