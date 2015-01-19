@@ -188,3 +188,9 @@ class User(db.Model):
     def tags_for_group(self, name):
         return db.session.query(Tag).join(GroupTagAssoc).join(Group).join(User).filter(User.id==self.id, Group.name==name).order_by(desc(GroupTagAssoc.timestamp))
 
+    def remove_group(self, name):
+        if self.has_group(name):
+            group = self.get_group(name)
+            self.groups.remove(group)
+            db.session.commit()
+        return self

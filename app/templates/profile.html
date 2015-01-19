@@ -2,23 +2,13 @@
 
 {% block content %}
 
-<div>
-<form action="" method="post" name="add_group_form">
-{{ group_form.hidden_tag() }}
-{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
-<input type="submit" value="Add new group" name="add_group_input">
-{% for error in group_form.errors.tag %}
-<span style="color: red;">[{{error}}]</span><br>
-{% endfor %}
 
-<br> 
-<br>
-
-<table border="1" cellspacing="0">
+<table id="group_table" border="1" cellspacing="0">
 	<tr>
 	{% for form in tag_forms %}
 		<td>
 			{{ form.group_name.data }}
+			<a style="color: red" href="{{ url_for('remove_group', group_name=form.group_name.data) }}">x</a>
 			<form action="" method="post" name="tag_body_form">
 			{{ form.hidden_tag() }}
 				<table border="1" cellspacing="0">
@@ -59,6 +49,16 @@
 		{% endfor %}
 	</tr>
 </table>
-</div>
+
+<br>
+
+<form action="" method="post" name="add_group_form">
+{{ group_form.hidden_tag() }}
+{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
+<input type="submit" value="Add new group" name="add_group_input">
+{% for error in group_form.errors.tag %}
+<span style="color: red;">[{{error}}]</span><br>
+{% endfor %}
+
 
 {% endblock %}

@@ -162,7 +162,7 @@ def profile():
     if request.form:
         print(request.form)
         print("group name: " + request.form["group_name"])
-        if "add_group" in request.form:
+        if "add_group_input" in request.form:
             print('add group')
             if group_form.validate_on_submit():
                 return redirect(url_for('add_group', group_name=group_form.group_name.data))
@@ -187,8 +187,14 @@ def add_group(group_name):
     if g.user.has_group(group_name):
         flash("You already have that group.")
     else:
-        g.user.get_group(group_name)
-        print(g.user.groups)
+        g.user.get_or_create_group(group_name)
+    return redirect(url_for('profile'))
+    
+@app.route('/remove_group/<group_name>')
+@login_required
+def remove_group(group_name):
+    if g.user.has_group(group_name):
+        g.user.remove_group(group_name)
     return redirect(url_for('profile'))
 
 @app.route('/add_tag/<tag_body>')
