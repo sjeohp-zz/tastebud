@@ -157,22 +157,15 @@ def profile():
     for group in user.groups:
         form = TagForm()
         form.group_name.data = group.name
-        print(form.group_name.data)
         tag_forms.append(form)
     if request.form:
-        print(request.form)
-        print("group name: " + request.form["group_name"])
         if "add_group_input" in request.form:
-            print('add group')
             if group_form.validate_on_submit():
-                return redirect(url_for('add_group', group_name=group_form.group_name.data))
-        
+                return redirect(url_for('add_group', group_name=group_form.group_name.data))        
         else:
-            print('else')
             i = 0
             for group in user.groups:
                 if request.form["group_name"] == group.name:
-                    print('tag form')
                     form = tag_forms[i]            
                     if form.validate_on_submit():
                         return redirect(url_for('add_tag', tag_body=form.tag_body.data, group_name=group.name))
