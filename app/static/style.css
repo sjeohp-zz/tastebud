@@ -1,11 +1,13 @@
 
 a { color: green; }
 
-tr {
-	width: 100px;
+.group {
+	width: 300px;
+	float: left;
 }
 
 tr td {
     padding: 10px;
     vertical-align: top; /* Add this */
+/*    float: left;*/
 }

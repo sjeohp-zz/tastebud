@@ -3,53 +3,60 @@
 {% block content %}
 
 
-<table id="group_table" border="1" cellspacing="0">
-	<tr>
+<!-- <table id="group_table" border="1" cellspacing="0">
+	<tr> -->
+		<div class="container">
+<div class="row">
 	{% for form in tag_forms %}
-		<td>
+		<div class="group">
 			{{ form.group_name.data }}
 			<a style="color: red" href="{{ url_for('remove_group', group_name=form.group_name.data) }}">x</a>
 			<form action="" method="post" name="tag_body_form">
 			{{ form.hidden_tag() }}
-				<table border="1" cellspacing="0">
-					<tr>
-						<td>
+				<!-- <table border="1" cellspacing="0"> -->
+					<div class="row">
+						<div class="group">
 							{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
 							<input type="submit" value="Add" name="add_tag_input">
-						</td>
-						<td>
+						</div>
+						<div class="group">
 							{% for error in form.errors.tag %}
 								<span style="color: red;">[{{error}}]</span><br>
 							{% endfor %}
-						</td>
-					</tr>
-				</table>
+						</div>
+					</div>
+				<!-- </table> -->
 			</form>
-		</td>
+		</div>
 	{% endfor %}
-	</tr>
-	<tr>	
+	<!-- </tr> -->
+</div>
+</div>
+<div class="container">
+<div class="row">
+	<!-- <tr>	 -->
 		{% for form in tag_forms %}	
-		<td>
-			<table border="1" cellspacing="0">
+		<div class="group">
+			<!-- <table border="1" cellspacing="0"> -->
 			{% for tag in user.tags_for_group(form.group_name.data) %}
 				{% if tag.body != None %}
-					<tr>
-						<td>
+					<div class="row">
+						<div class="group">
 							{% include 'tag_link.html' %}
-						</td>
-						<td>
+						</div>
+						<div class="group">
 							<a style="color: red" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}">x</a>
-						</td>
-					</tr>
+						</div>
+					</div>
 				{% endif %}
 			{% endfor %}
-			</table>
-		</td>
+			<!-- </table> -->
+		</div>
 		{% endfor %}
-	</tr>
-</table>
-
+	<!-- </tr> -->
+</div>
+<!-- </table> -->
+<div>
 <br>
 
 <form action="" method="post" name="add_group_form">
