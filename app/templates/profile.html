@@ -8,13 +8,13 @@
 		{% for form in tag_forms %}
 		<div class="span3">
 <!-- 			<div class="row"> -->
-				<table>
+				<table col>
 					<tr>
 						<td>
 							<strong>{{ form.group_name.data }}</strong>
 						</td>
 						<td>
-							<a style="color: red" href="{{ url_for('remove_group', group_name=form.group_name.data) }}"><button class="btn btn-mini btn-danger">x</button></a>
+							<a class="btn btn-small btn-danger" href="{{ url_for('remove_group', group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
 						</td>
 					</tr>
 				</table>
@@ -44,7 +44,7 @@
 							{% include 'tag_link.html' %}
 						</td>
 						<td>
-							<a style="color: red; float:right" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}"><div class="btn btn-mini btn-warning">x</div></a>
+							<a class="btn btn-small btn-warning" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
 						</td>
 					</tr>
 					{% endif %}

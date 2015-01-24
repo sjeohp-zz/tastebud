@@ -1,15 +1,16 @@
 
 /*a { color: green; }*/
 
-.group {
-	width: 300px;
-	float: left;
+table{
+    table-layout: fixed;
+    width: 200px;
 }
 
-tr td {
+th, td {
+    overflow: hidden;
+    width: 100px;
     padding: 10px;
     vertical-align: top; /* Add this */
-/*    float: left;*/
 }
 
 .padded { margin:10px; padding:10px; }
