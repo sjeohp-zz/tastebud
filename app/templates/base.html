@@ -21,15 +21,15 @@
   <body>
     <div class="navbar">
       <div class="navbar-inner">
-        <a class="brand" href="#">Tastebud</a>
+        <a class="brand" href="#">tastebud</a>
         <ul class="nav">
-        <li ><a href="{{ url_for('index') }}">Home</a></li>
+        <li ><a href="{{ url_for('index') }}">home</a></li>
         {% if g.user.is_authenticated() %}
-          <li><a href="{{ url_for('profile') }}">Me</a></li>
-          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          <li><a href="{{ url_for('profile') }}">me</a></li>
+          <li><a href="{{ url_for('logout') }}">logout</a></li>
         {% else %}
-          <a href="{{ url_for('login') }}">Login</a>
-          <a href="{{ url_for('create') }}">Create acount</a>
+          <a href="{{ url_for('login') }}">login</a>
+          <a href="{{ url_for('create') }}">create acount</a>
         {% endif %}
       </div>
     </div>
