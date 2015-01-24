@@ -2,70 +2,77 @@
 
 {% block content %}
 
+<div class="grid">
+	<div class="row">
+		<div class="padded">
+		{% for form in tag_forms %}
+		<div class="span3">
+<!-- 			<div class="row"> -->
+				<table>
+					<tr>
+						<td>
+							<strong>{{ form.group_name.data }}</strong>
+						</td>
+						<td>
+							<a style="color: red" href="{{ url_for('remove_group', group_name=form.group_name.data) }}"><button class="btn btn-mini btn-danger">x</button></a>
+						</td>
+					</tr>
+				</table>
+			<!-- </div> -->
+			<br>
+			<div class="row">
+				<div class="span3">
+					<form action="" method="post" name="tag_body_form" class="form-inline">
 
-<!-- <table id="group_table" border="1" cellspacing="0">
-	<tr> -->
-		<div class="container">
-<div class="row">
-	{% for form in tag_forms %}
-		<div class="group">
-			{{ form.group_name.data }}
-			<a style="color: red" href="{{ url_for('remove_group', group_name=form.group_name.data) }}">x</a>
-			<form action="" method="post" name="tag_body_form">
-			{{ form.hidden_tag() }}
-				<!-- <table border="1" cellspacing="0"> -->
-					<div class="row">
-						<div class="group">
-							{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
-							<input type="submit" value="Add" name="add_tag_input">
-						</div>
-						<div class="group">
-							{% for error in form.errors.tag %}
-								<span style="color: red;">[{{error}}]</span><br>
-							{% endfor %}
-						</div>
-					</div>
-				<!-- </table> -->
-			</form>
-		</div>
-	{% endfor %}
-	<!-- </tr> -->
-</div>
-</div>
-<div class="container">
-<div class="row">
-	<!-- <tr>	 -->
-		{% for form in tag_forms %}	
-		<div class="group">
-			<!-- <table border="1" cellspacing="0"> -->
-			{% for tag in user.tags_for_group(form.group_name.data) %}
-				{% if tag.body != None %}
-					<div class="row">
-						<div class="group">
+					{{ form.hidden_tag() }}
+					{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
+			
+					<button type="submit" class="btn btn-mini btn-inverse">Add</button>
+					{% for error in form.errors.tag %}
+						<span style="color: red;">[{{error}}]</span><br>
+					{% endfor %}
+					</form>
+				</div>
+			</div>
+
+			<div clas="row">
+				<table>
+				{% for tag in user.tags_for_group(form.group_name.data) %}
+					{% if tag.body != None %}
+					<tr>
+						<td>
 							{% include 'tag_link.html' %}
-						</div>
-						<div class="group">
-							<a style="color: red" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}">x</a>
-						</div>
-					</div>
-				{% endif %}
-			{% endfor %}
-			<!-- </table> -->
+						</td>
+						<td>
+							<a style="color: red; float:right" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}"><div class="btn btn-mini btn-warning">x</div></a>
+						</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+				</table>
+			</div>
 		</div>
 		{% endfor %}
-	<!-- </tr> -->
+		</div>
+	</div>
 </div>
-<!-- </table> -->
-<div>
+
+<br style="clear:both"/>
 <br>
 
-<form action="" method="post" name="add_group_form">
-{{ group_form.hidden_tag() }}
-{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
-<input type="submit" value="Add new group" name="add_group_input">
-{% for error in group_form.errors.tag %}
-<span style="color: red;">[{{error}}]</span><br>
-{% endfor %}
+<div class="padded">
+	<form action="" method="post" name="add_group_form" class="form-inline">
+	{{ group_form.hidden_tag() }}
+	{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
+	<button type="submit" name="add_group_input" class="btn btn-mini btn-inverse">Add new group</button>
+	{% for error in group_form.errors.tag %}
+	<span style="color: red;">[{{error}}]</span><br>
+	{% endfor %}
+</div>
+
+
+
+
 
 
 {% endblock %}
