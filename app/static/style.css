@@ -1,16 +1,29 @@
 
 /*a { color: green; }*/
 
-table{
+table {
     table-layout: fixed;
-    width: 200px;
+    width: 100%;
 }
 
 th, td {
     overflow: hidden;
-    width: 100px;
-    padding: 10px;
-    vertical-align: top; /* Add this */
+    /*width: 100px;*/
+    /*padding: 10px;*/
+    vertical-align: top;
 }
 
-.padded { margin:10px; padding:10px; }
+.padded { 
+	margin:10px; 
+	padding:10px; 
+}
+
+.tag_group {
+	border: 2px solid;
+	border-radius: 6px;
+    /*width: 300px;*/
+}
+
+input {
+	max-width: 100%;
+}

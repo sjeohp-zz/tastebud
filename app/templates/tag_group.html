@@ -1,0 +1,53 @@
+<div class="span3 tag_group padded">
+	<div class="row-fluid">
+		<table>
+			<tr>
+				<td class="span2">
+					<strong>{{ form.group_name.data }}</strong>
+				</td>
+				<td class="span1">
+					<a class="btn btn-small btn-danger" href="{{ url_for('remove_group', group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<!-- <div class="container"> -->
+	<form action="" method="post" name="tag_body_form" class="form-inline span3" style="margin-left:0">
+	<div class="row-fluid" >
+		<table>
+			<tr>
+				<div class="form-group">
+				<td class="span2">
+					{{ form.hidden_tag() }}
+					{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
+				</td>
+				<td class="span1">
+					<button type="submit" class="btn btn-small btn-inverse" style="height:120%"><i class="icon-plus icon-white"></i></button>
+				</td>
+			</div>
+			</tr>
+		</table>
+		{% for error in form.errors.tag %}
+			<span style="color: red;">[{{error}}]</span><br>
+		{% endfor %}
+	</div>
+	</form>
+<!-- </div> -->
+	<div class="row-fluid">
+		<table>
+		{% for tag in user.tags_for_group(form.group_name.data) %}
+			{% if tag.body != None %}
+			<tr>
+				<td class="span2">
+					{% include 'tag_link.html' %}
+				</td>
+				<td class="span1">
+					<a class="btn btn-small btn-warning" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
+				</td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+		</table>
+	</div>
+</div>

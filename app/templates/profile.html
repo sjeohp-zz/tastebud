@@ -2,59 +2,10 @@
 
 {% block content %}
 
-<div class="grid">
-	<div class="row">
-		<div class="padded">
-		{% for form in tag_forms %}
-		<div class="span3">
-<!-- 			<div class="row"> -->
-				<table col>
-					<tr>
-						<td>
-							<strong>{{ form.group_name.data }}</strong>
-						</td>
-						<td>
-							<a class="btn btn-small btn-danger" href="{{ url_for('remove_group', group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
-						</td>
-					</tr>
-				</table>
-			<!-- </div> -->
-			<br>
-			<div class="row">
-				<div class="span3">
-					<form action="" method="post" name="tag_body_form" class="form-inline">
-
-					{{ form.hidden_tag() }}
-					{{ form.tag_body(size=30, maxlength=160, autofocus=true) }}
-			
-					<button type="submit" class="btn btn-mini btn-inverse">Add</button>
-					{% for error in form.errors.tag %}
-						<span style="color: red;">[{{error}}]</span><br>
-					{% endfor %}
-					</form>
-				</div>
-			</div>
-
-			<div clas="row">
-				<table>
-				{% for tag in user.tags_for_group(form.group_name.data) %}
-					{% if tag.body != None %}
-					<tr>
-						<td>
-							{% include 'tag_link.html' %}
-						</td>
-						<td>
-							<a class="btn btn-small btn-warning" href="{{ url_for('remove_tag', tag_body=tag.body, group_name=form.group_name.data) }}"><i class="icon-remove"></i></a>
-						</td>
-					</tr>
-					{% endif %}
-				{% endfor %}
-				</table>
-			</div>
-		</div>
-		{% endfor %}
-		</div>
-	</div>
+<div class="padded">
+{% for form in tag_forms %}
+	{% include 'tag_group.html' %}
+{% endfor %}
 </div>
 
 <br style="clear:both"/>
@@ -66,13 +17,8 @@
 	{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
 	<button type="submit" name="add_group_input" class="btn btn-mini btn-inverse">Add new group</button>
 	{% for error in group_form.errors.tag %}
-	<span style="color: red;">[{{error}}]</span><br>
+		<span style="color: red;">[{{error}}]</span><br>
 	{% endfor %}
 </div>
-
-
-
-
-
 
 {% endblock %}
