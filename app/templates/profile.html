@@ -12,13 +12,26 @@
 <br>
 
 <div class="padded">
-	<form action="" method="post" name="add_group_form" class="form-inline">
-	{{ group_form.hidden_tag() }}
-	{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
-	<button type="submit" name="add_group_input" class="btn btn-mini btn-inverse">Add new group</button>
-	{% for error in group_form.errors.tag %}
-		<span style="color: red;">[{{error}}]</span><br>
-	{% endfor %}
+	<form action="" method="post" name="add_group_form" class="form-inline span5">
+
+		<div class="row-fluid" >
+			<table>
+				<tr>
+					<div class="form-group">
+						<td class="span2">
+							{{ group_form.hidden_tag() }}
+								{{ group_form.group_name(size=30, maxlength=30, autofocus=true) }}
+						</td>
+						<td class="span2">
+							<button type="submit" name="add_group_input" class="btn btn-mini btn-inverse">Add new group</button>
+						</td>
+				</div>
+				</tr>
+			</table>
+			{% for error in group_form.errors.tag %}
+				<span style="color: red;">[{{error}}]</span><br>
+			{% endfor %}
+		</div>
 </div>
 
 {% endblock %}

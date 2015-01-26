@@ -14,3 +14,47 @@
 	background-image:none;
 	text-shadow:none;
 }
+
+/*.navbar-inner { background-color: #222222}
+.navbar-inner .navbar-nav>.active>a:hover,.navbar-inverse .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { background-color: #}
+.navbar-inner .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { background-color: #080808}
+.dropdown-menu { background-color: #ffffff}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #428bca}
+.navbar-inner { background-image: none; }
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-image: none; }
+.navbar-inner { border-color: #080808}
+.navbar-inner .navbar-brand { color: #999999}
+.navbar-inner .navbar-brand:hover { color: #ffffff}
+.navbar-inner .navbar-nav>li>a { color: #999999}
+.navbar-inner .navbar-nav>li>a:hover, .navbar-inverse .navbar-nav>li>a:focus { color: #ffffff}
+.navbar-inner .navbar-nav>.active>a,.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus { color: #ffffff}
+.navbar-inner .navbar-nav>.active>a:hover, .navbar-inverse .navbar-nav>.active>a:focus { color: #ffffff}
+.dropdown-menu>li>a { color: #333333}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { color: #ffffff}
+.navbar-inner .navbar-nav>.dropdown>a .caret { border-top-color: #999999}
+.navbar-inner .navbar-nav>.dropdown>a:hover .caret { border-top-color: #ffffff}
+.navbar-inner .navbar-nav>.dropdown>a .caret { border-bottom-color: #999999}
+.navbar-inner .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #ffffff}*/
+
+.navbar-inner {
+	background-image:none;
+	border-radius:0;
+	background-color: #222222;
+	border-width:0;
+	padding:10px 20px 10px;
+}
+
+.navbar .brand {
+	text-shadow:none;
+	color:#aaaaaa;
+}
+
+.navbar .nav>li>a {
+	text-shadow:none;
+	color:#aaaaaa;
+}
+
+.navbar .nav>li>a:hover {
+	text-shadow:none;
+	color:#aaaaaa;
+}
