@@ -1,6 +1,4 @@
 
-/*a { color: green; }*/
-
 table {
     table-layout: fixed;
     width: 100%;
@@ -8,8 +6,6 @@ table {
 
 th, td {
     overflow: hidden;
-    /*width: 100px;*/
-    /*padding: 10px;*/
     vertical-align: top;
 }
 
@@ -21,10 +17,80 @@ th, td {
 .tag_group {
 	border: 2px solid;
 	border-radius: 6px;
-    /*width: 300px;*/
 }
 
 input {
 	max-width: 100%;
 }
 
+.navbar-inner {
+	background-image:none;
+	border-radius:0;
+	background-color: #222222;
+	border-width: 0;
+	padding: 10px 20px 10px;
+}
+
+.navbar .brand {
+	text-shadow: none;
+	color: #aaaaaa;
+	
+    padding: 10px 10px 10px;
+    margin-left: 0px;
+	font-size: 26px;
+}
+
+.navbar .nav {
+	margin: 0 0 0 0;
+}
+
+.navbar .nav>li>a {
+	text-shadow:none;
+	color:#aaaaaa;
+}
+
+.navbar .nav>li>a:hover {
+	text-shadow:none;
+	color:#aaaaaa;
+}
+
+.navbar .nav-right {
+	float: right;
+	margin-right: 0px;
+}
+
+.navbar .nav-left {
+	float: left;
+}
+
+li {
+	padding: 0px 10px 0px;
+}
+
+.btn-orange {
+    background-color: #faa732;
+    *background-color: #f89406;
+}
+
+.btn-orange:hover,
+.btn-orange:focus,
+.btn-orange:active,
+.btn-orange.active,
+.btn-orange.disabled,
+.btn-orange[disabled] {
+  background-color: #f89406;
+}
+
+.btn-red {
+    background-color: #da4f49;
+    *background-color: #bd362f;
+}
+
+.btn-red:hover,
+.btn-red:focus,
+.btn-red:active,
+.btn-red.active,
+.btn-red.disabled,
+.btn-red[disabled] {
+  background-color: #bd362f;
+}

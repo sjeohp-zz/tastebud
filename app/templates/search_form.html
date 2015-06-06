@@ -1,0 +1,14 @@
+<form action="" method="post" name="search" class="form-search">
+	{{form.hidden_tag()}}
+	<div align="center">
+		<div style="display:inline-block; padding: 10px 5px 10px;">
+			<input name="search" type="text" style="height:30px" autofocus="true" size="30" maxlength="30">
+		</div>
+		<div style="display:inline-block; padding: 10px 5px 10px;">
+			<input type="submit" style="height:30px" class="btn btn-small btn-success" value="Search For Shit You Like">
+			{% for error in form.errors.tag %}
+				<span style="color: red;">[{{error}}]</span><br>
+			{% endfor %}
+		</div>
+	</div>
+</form>

@@ -21,16 +21,16 @@
   <body>
     <div class="navbar">
       <div class="navbar-inner">
-        <a class="brand" href="#">tastebud</a>
-        <ul class="nav">
-        <li ><a href="{{ url_for('index') }}">home</a></li>
-        {% if g.user.is_authenticated() %}
-          <li><a href="{{ url_for('profile') }}">me</a></li>
-          <li><a href="{{ url_for('logout') }}">logout</a></li>
-        {% else %}
-          <a href="{{ url_for('login') }}">login</a>
-          <a href="{{ url_for('create') }}">create acount</a>
-        {% endif %}
+        <a class="brand" href="{{ url_for('index') }}">tastebud</a>
+				<ul class="nav nav-right">
+	        {% if g.user.is_authenticated() %}
+						<li><a href="{{ url_for('profile') }}">me</a></li>
+	          <li><a href="{{ url_for('logout') }}">logout</a></li>
+	        {% else %}
+	          <li><a href="{{ url_for('login') }}">login</a></li>
+	          <li><a href="{{ url_for('create') }}">create acount</a></li>
+	        {% endif %}
+				</ul>
       </div>
     </div>
     {% with messages = get_flashed_messages() %}

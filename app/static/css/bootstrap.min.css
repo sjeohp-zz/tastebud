@@ -35,26 +35,3 @@
 .navbar-inner .navbar-nav>.dropdown>a:hover .caret { border-top-color: #ffffff}
 .navbar-inner .navbar-nav>.dropdown>a .caret { border-bottom-color: #999999}
 .navbar-inner .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #ffffff}*/
-
-.navbar-inner {
-	background-image:none;
-	border-radius:0;
-	background-color: #222222;
-	border-width:0;
-	padding:10px 20px 10px;
-}
-
-.navbar .brand {
-	text-shadow:none;
-	color:#aaaaaa;
-}
-
-.navbar .nav>li>a {
-	text-shadow:none;
-	color:#aaaaaa;
-}
-
-.navbar .nav>li>a:hover {
-	text-shadow:none;
-	color:#aaaaaa;
-}
