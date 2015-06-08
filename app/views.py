@@ -66,7 +66,7 @@ def create():
 	createForm = CreateForm()
 	if request.form:
 		if request.form["submit"]:
-			if request.form["submit"] == "Create":
+			if request.form["submit"] == "create":
 				if createForm.validate_on_submit():
 					remember_me = createForm.remember_me.data
 					nickname = createForm.nickname.data
@@ -99,7 +99,7 @@ def login():
 	oidForm = OpenIDForm()
 	if request.form:
 		if request.form["submit"]:
-			if request.form["submit"] == "Sign in":
+			if request.form["submit"] == "sign in":
 				if loginForm.validate_on_submit():
 					remember_me = loginForm.remember_me.data
 					email = loginForm.email.data
@@ -115,7 +115,7 @@ def login():
 				if oidForm.validate_on_submit():
 					session['remember_me'] = form.remember_me.data
 					return oid.try_login(form.openid.data, ask_for=['nickname', 'email'])
-	
+                    
 	return render_template('login.html', 
 		title='Sign in', 
 		login=loginForm, 

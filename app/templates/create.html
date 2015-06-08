@@ -5,26 +5,36 @@
 <form action="" method="post" name="create">
 	{{create.hidden_tag()}}
 	
-	<br>
-	{{create.nickname(size=80, placeholder="name", autofocus=true)}}
-	{% for error in create.errors.nickname %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	{{create.email(size=80, placeholder="email")}}
-	{% for error in create.errors.email %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	{{create.password(size=80, placeholder="password")}}
-	{% for error in create.errors.password %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	{{create.confirmation(size=80, placeholder="confirm password")}}
-	{% for error in create.errors.confirmation %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	<div>{{create.remember_me}} remember me</div>
-	<br>
-	<input type="submit" value="Create" name="submit">
+	<div class="padded_input">
+		<input name="nickname" placeholder="name" type="text" style="height:30px; width:200px;" autofocus="true" maxlength="50">
+		{% for error in create.errors.nickname %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<input name="email" placeholder="email" type="email" style="height:30px; width:200px;" maxlength="50">
+		{% for error in create.errors.email %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<input name="password" placeholder="password" type="password" style="height:30px; width:200px;" maxlength="20">
+		{% for error in create.errors.password %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<input name="confirmation" placeholder="confirm password" type="password" style="height:30px; width:200px;" maxlength="20">
+		{% for error in create.errors.email %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<div class="checkbox">
+			<label><input type="checkbox" name="remember_me"> remember me</label>
+		</div>
+	</div>
+	
+	<div class="padded_input">
+		<input type="submit" name="submit" style="height:30px" class="btn btn-small btn-success" value="create">
+	</div>
+	
 </form>
 
 {% endblock %}

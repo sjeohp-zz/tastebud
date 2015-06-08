@@ -24,11 +24,17 @@
         <a class="brand" href="{{ url_for('index') }}">tastebud</a>
 				<ul class="nav nav-right">
 	        {% if g.user.is_authenticated() %}
-						<li><a href="{{ url_for('profile') }}">me</a></li>
+						{% if request.path != "/profile" %}
+							<li><a href="{{ url_for('profile') }}">profile</a></li>
+						{% endif %}
 	          <li><a href="{{ url_for('logout') }}">logout</a></li>
 	        {% else %}
-	          <li><a href="{{ url_for('login') }}">login</a></li>
-	          <li><a href="{{ url_for('create') }}">create acount</a></li>
+						{% if request.path != "/login" %}
+	          	<li><a href="{{ url_for('login') }}">login</a></li>
+						{% endif %}
+						{% if request.path != "/create" %}
+	          	<li><a href="{{ url_for('create') }}">create profile</a></li>
+						{% endif %}
 	        {% endif %}
 				</ul>
       </div>

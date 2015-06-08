@@ -18,18 +18,26 @@ function set_openid(openid, pr)
 
 <form action="" method="post" name="login">
 	{{login.hidden_tag()}}
-	<br>
-	{{login.email(size=80, placeholder="email", autofocus=true)}}
-	{% for error in login.errors.email %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	{{login.password(size=80, placeholder="password", hide_value=True)}}
-	{% for error in login.errors.password %}<span style="color: red;">{{error}}</span>{% endfor %}
-	<br>
-	<br>
-	<div>{{login.remember_me}} remember me</div>
-	<br>
-	<input type="submit" value="Sign in"  name="submit">
+	
+	<div class="padded_input">
+		<input name="email" placeholder="email" type="email" style="height:30px; width:200px;" autofocus="true" maxlength="50">
+		{% for error in login.errors.email %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<input name="password" placeholder="password" type="password" style="height:30px; width:200px;" maxlength="20">
+		{% for error in login.errors.password %}<span style="color: red; padding: 0px 10px 0px">{{error}}</span>{% endfor %}
+	</div>
+	
+	<div class="padded_input">
+		<div class="checkbox">
+			<label><input type="checkbox" name="remember_me"> remember me</label>
+		</div>
+	</div>
+	
+	<div class="padded_input">
+		<input type="submit" name="submit" style="height:30px" class="btn btn-small btn-success" value="sign in">
+	</div>
 </form>
 
 <!-- <div>OR sign in using OpenID</div>
